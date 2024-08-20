@@ -1,0 +1,8 @@
+const APP_CONTENT_PADDING = 6;
+
+const HEADER_HEIGHT = 64;
+
+export {
+    APP_CONTENT_PADDING,
+    HEADER_HEIGHT
+}

@@ -1,17 +1,17 @@
 import Header from "../../components/header/Header";
-import {Outlet} from "react-router-dom";
 import Footer from "../../components/footer/Footer";
+import ErrorPage from "../../pages/error-page/ErrorPage";
 
-const MainLayout = () => {
+const ErrorLayout = () => {
     return (
         <>
             <Header />
             <main>
-                <Outlet />
+                <ErrorPage />
             </main>
             <Footer />
         </>
     );
 }
 
-export default MainLayout;
+export default ErrorLayout;

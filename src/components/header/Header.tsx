@@ -9,7 +9,7 @@ import {APP_CONTENT_PADDING} from "../../constants/styles";
 import logo from '../../assets/logo.png';
 
 const Header = () => {
-    const {darkMode} = useAppSelector(state => state.themeSlice);
+    const {theme} = useAppSelector(state => state.themeSlice);
     const dispatch = useAppDispatch();
 
     const linkStyles = {
@@ -51,8 +51,8 @@ const Header = () => {
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconButton onClick={() => dispatch(themeActions.toggleTheme())} color="inherit">
-                        {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                    <IconButton onClick={() => dispatch(themeActions.changeTheme())} color="inherit">
+                        {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
                 </Box>
             </Toolbar>

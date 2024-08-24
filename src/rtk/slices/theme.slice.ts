@@ -1,21 +1,22 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 interface IThemeState {
-    darkMode: boolean;
+    theme: string;
 }
 
 const initialState: IThemeState = {
-    darkMode: false,
+    theme: sessionStorage.getItem('theme') || 'dark',
 };
 
 const themeSlice = createSlice({
     name: 'theme',
     initialState,
     reducers: {
-        toggleTheme(state) {
-            state.darkMode = !state.darkMode;
-        },
-    },
+        changeTheme: state => {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            sessionStorage.setItem('theme', state.theme);
+        }
+    }
 });
 
 const themeActions = {...themeSlice.actions};

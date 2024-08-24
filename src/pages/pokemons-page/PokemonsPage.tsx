@@ -1,25 +1,30 @@
 import {useTitle} from "../../hooks/useTitle";
-import {useAppDispatch, useAppSelector} from "../../hooks/rtk";
-import {useEffect} from "react";
-import {pokemonExtraReducers} from "../../rtk/extra-reducers/pokemon.extra.reducers";
+import {useEffect} from 'react';
+import {HEADER_HEIGHT} from "../../constants/styles";
+import PokemonsList from "../../components/pokemons-list/PokemonsList";
+import Container from '@mui/material/Container';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAppSelector } from "../../hooks/rtk";
 
 const PokemonsPage = () => {
     useTitle('PokeWiki | Pokemons');
 
-    const {pokemonsPage} =
-        useAppSelector(state => state.pokemonSlice);
-    const dispatch = useAppDispatch();
+    const {theme} = useAppSelector(state => state.themeSlice);
+
+    const notify = () => {
+        toast.info('To navigate to a specific Pokémon page, click on its image');
+    };
 
     useEffect(() => {
-        dispatch(pokemonExtraReducers.loadPokemonsPage({limit: 20, offset: 0}));
+        notify();
     }, []);
 
     return (
-        <div>
-            {
-                pokemonsPage.results.map((value, i) => <div key={i}>{value.name}</div>)
-            }
-        </div>
+        <Container sx={{ marginTop: `${HEADER_HEIGHT}px` }}>
+            <PokemonsList />
+            <ToastContainer />
+        </Container>
     );
 }
 

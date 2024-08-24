@@ -1,0 +1,5 @@
+const ITEMS_PER_PAGE_LIMIT = 20;
+
+export {
+    ITEMS_PER_PAGE_LIMIT
+}

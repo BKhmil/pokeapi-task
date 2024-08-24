@@ -5,16 +5,16 @@ import {RouterProvider} from "react-router-dom";
 import {router} from "./router/router";
 
 const App = () => {
-    const {darkMode} = useAppSelector(state => state.themeSlice);
+    const {theme} = useAppSelector(state => state.themeSlice);
 
-    const theme = createTheme({
+    const themeConfig = createTheme({
         palette: {
-            mode: darkMode ? 'dark' : 'light',
+            mode: theme === 'dark' ? 'dark' : 'light',
         },
     });
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={themeConfig}>
             <CssBaseline />
             <RouterProvider
                 router={router}

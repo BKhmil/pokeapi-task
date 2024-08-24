@@ -4,6 +4,8 @@ import {AppRoutes} from "../enums/app-routes.enum";
 import HomePage from "../pages/home-page/HomePage";
 import ErrorLayout from "../layouts/error-layout/ErrorLayout";
 import PokemonsPage from "../pages/pokemons-page/PokemonsPage";
+import PokemonDetailsPage from "../pages/pokemon-details-page/PokemonDetailsPage";
+import PokemonsLayout from "../layouts/pokemons-layout/PokemonsLayout";
 
 export const routes: RouteObject[] = [
     {
@@ -17,7 +19,17 @@ export const routes: RouteObject[] = [
             },
             {
                 path: AppRoutes.POKEMONS,
-                element: <PokemonsPage />
+                element: <PokemonsLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <PokemonsPage />
+                    },
+                    {
+                        path: ':pokemonName',
+                        element: <PokemonDetailsPage />
+                    }
+                ]
             }
         ]
     }

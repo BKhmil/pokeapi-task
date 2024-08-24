@@ -1,0 +1,8 @@
+.listImg {
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.listImg:hover {
+    filter: blur(2px);
+}

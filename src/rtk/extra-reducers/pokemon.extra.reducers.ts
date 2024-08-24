@@ -10,7 +10,7 @@ const loadPokemonsPage = createAsyncThunk<NamedAPIResourceList, IRequestPagePara
             const response = await apiMainClient.pokemon.listPokemons(params.offset, params.limit);
             return fulfillWithValue(response);
         } catch (e) {
-            console.log(e)
+            console.log(e);
             return rejectWithValue(e as Error);
         }
     }

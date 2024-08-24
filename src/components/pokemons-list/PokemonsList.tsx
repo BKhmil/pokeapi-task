@@ -6,6 +6,8 @@ import {ITEMS_PER_PAGE_LIMIT} from '../../constants/app';
 import ListItem from '../list-item/ListItem';
 import {useSearchParams} from 'react-router-dom';
 import Preloader from '../preloader/Preloader';
+import { getImageById } from '../../helpers/getImageById';
+import { extractPokemonId } from '../../helpers/extractPokemonId';
 
 const PokemonsList = () => {
     const {pokemonsPage, isLoading} =
@@ -22,21 +24,25 @@ const PokemonsList = () => {
         dispatch(pokemonExtraReducers.loadPokemonsPage({limit: ITEMS_PER_PAGE_LIMIT, offset}));
     }, [currentPage]);
 
-    const changePage = (event: ChangeEvent<unknown>, newPage: number) => {
+    const changePage = (e: ChangeEvent<unknown>, newPage: number) => {
         setSearchParams({ page: newPage.toString() });
     };
 
     return (
         <>
-            <Grid container spacing={1} alignItems="stretch" justifyContent="center">
+            <Grid container spacing={2} alignItems="stretch" justifyContent="center">
                 {isLoading ? (
                     <Preloader />
                 ) : (
-                    pokemonsPage.results.map((pokemon, i) => (
-                        <Grid item xs={12} sm={6} md={3} lg={3} key={i}>
-                            <ListItem pokemon={pokemon} />
-                        </Grid>
-                    ))
+                    pokemonsPage.results.map(pokemon => {
+                        const id = extractPokemonId(pokemon.url);
+                        const imageUrl = getImageById(id);
+                        return (
+                            <Grid item xs={12} sm={6} md={3} lg={3} key={id}>
+                                <ListItem name={pokemon.name} imageUrl={imageUrl} />
+                            </Grid>
+                        );
+                    })
                 )}
             </Grid>
             <Pagination

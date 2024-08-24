@@ -32,7 +32,6 @@ const pokemonSlice = createSlice({
             })
             .addCase(pokemonExtraReducers.loadPokemonsPage.fulfilled, (state, action) => {
                 state.pokemonsPage = action.payload;
-                console.log(state.pokemonsPage);
                 state.error = null;
                 state.isLoading = false;
             })

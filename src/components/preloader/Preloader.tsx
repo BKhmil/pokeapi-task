@@ -1,8 +1,12 @@
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import { HEADER_HEIGHT } from '../../constants/styles';
+
 const Preloader = () => {
     return (
-        <div>
-            Preloader
-        </div>
+        <Box sx={{ width: '100%', marginY: HEADER_HEIGHT }}>
+            <LinearProgress />
+        </Box>
     );
 };
 

@@ -45,10 +45,18 @@ const Header = () => {
                     <Typography
                         variant="h6"
                         component={NavLink}
-                        to={AppRoutes.POKEMONS}
+                        to={AppRoutes.POKEMONS_NAV}
                         sx={linkStyles}
                     >
                         Pokemons
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        component={NavLink}
+                        to={AppRoutes.SEARCH_NAV}
+                        sx={linkStyles}
+                    >
+                        Search
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>

@@ -16,7 +16,7 @@ const ListItem: FC<IProps> = ({name, imageUrl}) => {
 
     const handleClick = () => {
         sessionStorage.setItem(SessionStorageItems.BACK_PATH, location.pathname + location.search);
-        navigate(AppRoutes.POKEMON_DEATILS + name);
+        navigate(AppRoutes.POKEMON_DEATILS_NAV + name);
     }
 
     return (

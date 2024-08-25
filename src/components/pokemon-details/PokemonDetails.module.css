@@ -1,9 +1,9 @@
-.imageFront {
+.imageFront.img {
     width: 250px;
 }
 
-.imageMain {
-    width: 100%;
+.imageMain.img {
+    height: 100%;
 }
 
 .flex {

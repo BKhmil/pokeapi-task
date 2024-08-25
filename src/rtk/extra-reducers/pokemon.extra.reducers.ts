@@ -1,8 +1,7 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {apiMainClient} from "../../api/api.clients";
-import {NamedAPIResourceList, Pokemon} from "pokenode-ts";
+import {NamedAPIResource, NamedAPIResourceList, Pokemon} from "pokenode-ts";
 import {IRequestPageParams} from "../../models/request-page-params.interface";
-import {AxiosError} from 'axios';
 
 const loadPokemonsPage = createAsyncThunk<NamedAPIResourceList, IRequestPageParams>(
     'pokemonSlice/loadPokemonsPage',
@@ -12,7 +11,7 @@ const loadPokemonsPage = createAsyncThunk<NamedAPIResourceList, IRequestPagePara
             return fulfillWithValue(response);
         } catch (e) {
             console.log(e);
-            return rejectWithValue(e as AxiosError);
+            return rejectWithValue(e);
         }
     }
 );
@@ -25,12 +24,25 @@ const loadSinglePokemonByName = createAsyncThunk<Pokemon, string>(
             return fulfillWithValue(response);
         } catch (e) {
             console.log(e);
-            return rejectWithValue(e as AxiosError);
+            return rejectWithValue(e);
+        }
+    }
+);
+
+const loadPokemonsByType = createAsyncThunk<NamedAPIResource[], string>(
+    'pokemonSlice/loadPokemonsByType',
+    async (typeName, {fulfillWithValue, rejectWithValue}) => {
+        try {
+            const response = await apiMainClient.pokemon.getTypeByName(typeName);
+            return fulfillWithValue(response.pokemon.map(p => p.pokemon));
+        } catch (e) {
+            return rejectWithValue(e);
         }
     }
 );
 
 export const pokemonExtraReducers = {
     loadPokemonsPage,
-    loadSinglePokemonByName
+    loadSinglePokemonByName,
+    loadPokemonsByType
 }

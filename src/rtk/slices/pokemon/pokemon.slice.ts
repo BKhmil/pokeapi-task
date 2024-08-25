@@ -1,12 +1,11 @@
 import {createSlice, isPending} from '@reduxjs/toolkit';
 import {NamedAPIResourceList, Pokemon} from "pokenode-ts";
 import {pokemonExtraReducers} from "../../extra-reducers/pokemon.extra.reducers";
-import {AxiosError} from "axios";
 
 interface IPokemonSlice {
     pokemonsPage: NamedAPIResourceList;
     isLoading: boolean;
-    error: AxiosError | null;
+    error: string | null;
     singlePokemon: Pokemon | null;
 }
 
@@ -34,7 +33,8 @@ const pokemonSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(pokemonExtraReducers.loadPokemonsPage.rejected, (state, action) => {
-                state.error = action.payload as AxiosError;
+                console.log(action.payload);
+                state.error = 'Page loading Error';
                 state.isLoading = false;
             })
             .addCase(pokemonExtraReducers.loadSinglePokemonByName.fulfilled, (state, action) => {
@@ -43,10 +43,14 @@ const pokemonSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(pokemonExtraReducers.loadSinglePokemonByName.rejected, (state, action) => {
-                state.error = action.payload as AxiosError;
+                state.error = 'Pokemon loading Error';
+                console.log(action.payload);
                 state.isLoading = false;
+                state.singlePokemon = null;
             })
-            .addMatcher(isPending(pokemonExtraReducers.loadPokemonsPage, pokemonExtraReducers.loadSinglePokemonByName), state => {
+            .addMatcher(isPending(pokemonExtraReducers.loadPokemonsPage,
+                pokemonExtraReducers.loadSinglePokemonByName
+            ), state => {
                 state.isLoading = true;
                 state.error = null;
             })

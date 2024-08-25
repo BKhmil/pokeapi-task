@@ -5,7 +5,7 @@ import PokemonDetails from '../../components/pokemon-details/PokemonDetails';
 const PokemonDetailsPage = () => {
     return (
         <Container sx={{ marginTop: `${HEADER_HEIGHT}px` }}>
-            <PokemonDetails />
+            <PokemonDetails isSearching={false}/>
         </Container>
     );
 }

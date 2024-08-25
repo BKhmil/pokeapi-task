@@ -6,6 +6,11 @@ import ErrorLayout from "../layouts/error-layout/ErrorLayout";
 import PokemonsPage from "../pages/pokemons-page/PokemonsPage";
 import PokemonDetailsPage from "../pages/pokemon-details-page/PokemonDetailsPage";
 import PokemonsLayout from "../layouts/pokemons-layout/PokemonsLayout";
+import SearchLayout from "../layouts/search-layout/SearchLayout";
+import PreSearch from "../components/pre-search/PreSearch";
+import SearchByNamePage from "../pages/search-by-name-page/SearchByNamePage";
+import SearchByTypePage from "../pages/search-by-type-page/SearchByTypePage";
+import SearchByAbilityPage from "../pages/search-by-ability-page/SearchByAbilityPage";
 
 export const routes: RouteObject[] = [
     {
@@ -26,8 +31,30 @@ export const routes: RouteObject[] = [
                         element: <PokemonsPage />
                     },
                     {
-                        path: ':pokemonName',
+                        path: AppRoutes.DYNAMIC_POKEMON_NAME,
                         element: <PokemonDetailsPage />
+                    }
+                ]
+            },
+            {
+                path: AppRoutes.SEARCH,
+                element: <SearchLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <PreSearch />
+                    },
+                    {
+                        path: AppRoutes.DYNAMIC_SEARCH_BY_NAME,
+                        element: <SearchByNamePage />
+                    },
+                    {
+                        path: AppRoutes.DYNAMIC_SEARCH_BY_TYPE,
+                        element: <SearchByTypePage />
+                    },
+                    {
+                        path: AppRoutes.DYNAMIC_SEARCH_BY_ABILITY,
+                        element: <SearchByAbilityPage />
                     }
                 ]
             }

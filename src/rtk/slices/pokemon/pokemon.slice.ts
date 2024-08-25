@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {NamedAPIResourceList} from "pokenode-ts";
+import {createSlice, isPending} from '@reduxjs/toolkit';
+import {NamedAPIResourceList, Pokemon} from "pokenode-ts";
 import {pokemonExtraReducers} from "../../extra-reducers/pokemon.extra.reducers";
 import {AxiosError} from "axios";
 
@@ -7,6 +7,7 @@ interface IPokemonSlice {
     pokemonsPage: NamedAPIResourceList;
     isLoading: boolean;
     error: AxiosError | null;
+    singlePokemon: Pokemon | null;
 }
 
 const initialState: IPokemonSlice = {
@@ -17,7 +18,8 @@ const initialState: IPokemonSlice = {
         results: []
     },
     isLoading: false,
-    error: null
+    error: null,
+    singlePokemon: null
 };
 
 const pokemonSlice = createSlice({
@@ -26,10 +28,6 @@ const pokemonSlice = createSlice({
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(pokemonExtraReducers.loadPokemonsPage.pending, (state) => {
-                state.isLoading = true;
-                state.error = null;
-            })
             .addCase(pokemonExtraReducers.loadPokemonsPage.fulfilled, (state, action) => {
                 state.pokemonsPage = action.payload;
                 state.error = null;
@@ -38,6 +36,19 @@ const pokemonSlice = createSlice({
             .addCase(pokemonExtraReducers.loadPokemonsPage.rejected, (state, action) => {
                 state.error = action.payload as AxiosError;
                 state.isLoading = false;
+            })
+            .addCase(pokemonExtraReducers.loadSinglePokemonByName.fulfilled, (state, action) => {
+                state.singlePokemon = action.payload;
+                state.error = null;
+                state.isLoading = false;
+            })
+            .addCase(pokemonExtraReducers.loadSinglePokemonByName.rejected, (state, action) => {
+                state.error = action.payload as AxiosError;
+                state.isLoading = false;
+            })
+            .addMatcher(isPending(pokemonExtraReducers.loadPokemonsPage, pokemonExtraReducers.loadSinglePokemonByName), state => {
+                state.isLoading = true;
+                state.error = null;
             })
     }
 });

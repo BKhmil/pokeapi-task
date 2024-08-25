@@ -3,13 +3,14 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 import {RouterProvider} from "react-router-dom";
 import {router} from "./router/router";
+import { Themes } from "./enums/themes.enum";
 
 const App = () => {
     const {theme} = useAppSelector(state => state.themeSlice);
 
     const themeConfig = createTheme({
         palette: {
-            mode: theme === 'dark' ? 'dark' : 'light',
+            mode: theme === Themes.DARK ? Themes.DARK : Themes.LIGHT,
         },
     });
 

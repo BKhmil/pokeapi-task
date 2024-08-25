@@ -8,9 +8,10 @@ import {useSearchParams} from 'react-router-dom';
 import Preloader from '../preloader/Preloader';
 import { getImageById } from '../../helpers/getImageById';
 import { extractPokemonId } from '../../helpers/extractPokemonId';
+import ErrorBox from '../error-box/ErrorBox';
 
 const PokemonsList = () => {
-    const {pokemonsPage, isLoading} =
+    const {pokemonsPage, isLoading, error} =
         useAppSelector(state => state.pokemonSlice);
     const dispatch = useAppDispatch();
 
@@ -31,19 +32,21 @@ const PokemonsList = () => {
     return (
         <>
             <Grid container spacing={2} alignItems="stretch" justifyContent="center">
-                {isLoading ? (
-                    <Preloader />
-                ) : (
-                    pokemonsPage.results.map(pokemon => {
-                        const id = extractPokemonId(pokemon.url);
-                        const imageUrl = getImageById(id);
-                        return (
-                            <Grid item xs={12} sm={6} md={3} lg={3} key={id}>
-                                <ListItem name={pokemon.name} imageUrl={imageUrl} />
-                            </Grid>
-                        );
-                    })
-                )}
+                {
+                    isLoading ? <Preloader /> :
+                        error ? <ErrorBox message={error.message} /> :
+                            (
+                                pokemonsPage.results.map(pokemon => {
+                                    const id = extractPokemonId(pokemon.url);
+                                    const imageUrl = getImageById(id);
+                                    return (
+                                        <Grid item xs={12} sm={6} md={3} lg={3} key={id}>
+                                            <ListItem name={pokemon.name} imageUrl={imageUrl} />
+                                        </Grid>
+                                    );
+                                })
+                            )
+                }
             </Grid>
             <Pagination
                 count={Math.ceil(pokemonsPage.count / ITEMS_PER_PAGE_LIMIT)}

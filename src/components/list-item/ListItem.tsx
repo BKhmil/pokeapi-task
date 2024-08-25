@@ -1,8 +1,9 @@
 import {FC} from 'react';
 import {Button, Card, CardContent, CardMedia, Typography} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import {AppRoutes} from '../../enums/app-routes.enum';
 import css from './ListItem.module.css';
+import { SessionStorageItems } from '../../enums/session-storage-items.enum';
 
 interface IProps {
     name: string;
@@ -11,8 +12,10 @@ interface IProps {
 
 const ListItem: FC<IProps> = ({name, imageUrl}) => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleClick = () => {
+        sessionStorage.setItem(SessionStorageItems.BACK_PATH, location.pathname + location.search);
         navigate(AppRoutes.POKEMON_DEATILS + name);
     }
 

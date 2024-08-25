@@ -7,6 +7,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {AppRoutes} from "../../enums/app-routes.enum";
 import {APP_CONTENT_PADDING} from "../../constants/styles";
 import logo from '../../assets/logo.png';
+import { Themes } from "../../enums/themes.enum";
 
 const Header = () => {
     const {theme} = useAppSelector(state => state.themeSlice);
@@ -52,7 +53,7 @@ const Header = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton onClick={() => dispatch(themeActions.changeTheme())} color="inherit">
-                        {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                        {theme === Themes.DARK ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
                 </Box>
             </Toolbar>

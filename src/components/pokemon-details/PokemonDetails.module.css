@@ -1,0 +1,17 @@
+.imageFront {
+    width: 250px;
+}
+
+.imageMain {
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}

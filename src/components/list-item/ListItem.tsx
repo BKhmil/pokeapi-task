@@ -4,10 +4,10 @@ import {useNavigate, useLocation} from 'react-router-dom';
 import {AppRoutes} from '../../enums/app-routes.enum';
 import { SessionStorageItems } from '../../enums/session-storage-items.enum';
 import {NamedAPIResource} from "pokenode-ts";
-import css from './ListItem.module.css';
 import {isFavorite} from "../../helpers/isFavorite";
 import {useAppDispatch, useAppSelector} from "../../hooks/rtk";
 import {pokemonSliceActions} from "../../rtk/slices/pokemon/pokemon.slice";
+import css from './ListItem.module.css';
 
 interface IProps {
     pokemon: NamedAPIResource;

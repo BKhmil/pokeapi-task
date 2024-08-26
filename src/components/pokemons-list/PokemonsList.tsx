@@ -1,5 +1,5 @@
 import {Grid, Pagination} from '@mui/material';
-import {ChangeEvent, FC, PropsWithChildren} from 'react';
+import {ChangeEvent, FC, PropsWithChildren, useEffect, useState} from 'react';
 import {ITEMS_PER_PAGE_LIMIT} from '../../constants/app';
 import ListItem from '../list-item/ListItem';
 import Preloader from '../preloader/Preloader';
@@ -37,20 +37,14 @@ const PokemonsList: FC<IProps> = (
                 {error && <ErrorBox message={error} />}
                 {pokemonsPage && pokemonsPage.results.map(pokemon => {
                     const id = extractPokemonId(pokemon.url);
-                    const imageUrl = getImageById(id);
                     return (
-                        <Grid item xs={12} sm={6} md={3} lg={3} key={id}>
-                            <ListItem pokemon={pokemon} imageUrl={imageUrl} />
-                        </Grid>
+                        <PokemonGridItem key={id} pokemon={pokemon} id={id} />
                     );
                 })}
                 {pokemonsList && pokemonsList.map(pokemon => {
                     const id = extractPokemonId(pokemon.url);
-                    const imageUrl = getImageById(id);
                     return (
-                        <Grid item xs={12} sm={6} md={3} lg={3} key={id}>
-                            <ListItem pokemon={pokemon} imageUrl={imageUrl} />
-                        </Grid>
+                        <PokemonGridItem key={id} pokemon={pokemon} id={id} />
                     );
                 })}
             </Grid>
@@ -64,5 +58,26 @@ const PokemonsList: FC<IProps> = (
         </>
     );
 }
+
+type TProps = {pokemon: NamedAPIResource, id: string};
+
+const PokemonGridItem: FC<TProps> = ({ pokemon, id }) => {
+    const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        const loadImage = async () => {
+            const url = await getImageById(id);
+            setImageUrl(url);
+        };
+
+        loadImage();
+    }, [id]);
+
+    return (
+        <Grid item xs={12} sm={6} md={3} lg={3}>
+            <ListItem pokemon={pokemon} imageUrl={imageUrl} />
+        </Grid>
+    );
+};
 
 export default PokemonsList;

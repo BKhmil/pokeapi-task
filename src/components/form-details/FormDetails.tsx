@@ -5,6 +5,7 @@ import ErrorBox from "../error-box/ErrorBox";
 import BackButton from "../back-button/BackButton";
 import {SessionStorageItems} from "../../enums/session-storage-items.enum";
 import {useNavigate} from "react-router-dom";
+import notFound from "../../assets/image_not_found.png";
 
 const FormDetails = () => {
     const {isLoading, error, pokemonForm} = useAppSelector(state => state.pokemonFormSlice);
@@ -51,12 +52,12 @@ const FormDetails = () => {
                         </Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 3, marginTop: 2 }}>
                             <img
-                                src={pokemonForm.sprites.front_default || ''}
+                                src={pokemonForm.sprites.front_default || notFound}
                                 alt={`${pokemonForm.name} sprite`}
                                 style={ss}
                             />
                             <img
-                                src={pokemonForm.sprites.front_shiny || ''}
+                                src={pokemonForm.sprites.front_shiny || notFound}
                                 alt={`${pokemonForm.name} shiny sprite`}
                                 style={ss}
                             />

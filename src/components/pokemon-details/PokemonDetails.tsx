@@ -16,10 +16,11 @@ import {FC, useEffect} from 'react';
 import {pokemonExtraReducers} from '../../rtk/extra-reducers/pokemon.extra.reducers';
 import Preloader from '../preloader/Preloader';
 import ErrorBox from '../error-box/ErrorBox';
-import css from './PokemonDetails.module.css';
 import BackButton from '../back-button/BackButton';
 import {SessionStorageItems} from '../../enums/session-storage-items.enum';
 import {AppRoutes} from "../../enums/app-routes.enum";
+import notFound from '../../assets/image_not_found.png';
+import css from './PokemonDetails.module.css';
 
 interface IProps {
     isSearching: boolean;
@@ -57,45 +58,45 @@ const PokemonDetails: FC<IProps> = ({isSearching}) => {
                                     <CardMedia
                                         className={css.imageFront + ' ' + css.img}
                                         component="img"
-                                        image={singlePokemon.sprites.front_default || ''}
+                                        image={singlePokemon.sprites.front_default || notFound}
                                         alt={`Image of ${singlePokemon.name}`}
                                     />
                                     <CardMedia
                                         className={css.imageFront + ' ' + css.img}
                                         component="img"
-                                        image={singlePokemon.sprites.back_default || ''}
+                                        image={singlePokemon.sprites.back_default || notFound}
                                         alt={`Image of ${singlePokemon.name}`}
                                     />
                                     <CardMedia
                                         className={css.imageFront + ' ' + css.img}
                                         component="img"
-                                        image={singlePokemon.sprites.front_shiny || ''}
+                                        image={singlePokemon.sprites.front_shiny || notFound}
                                         alt={`Image of ${singlePokemon.name}`}
                                     />
                                 </div>
                                 <CardMedia
                                     className={css.imageMain + ' ' + css.img}
                                     component="img"
-                                    image={singlePokemon.sprites.other?.dream_world.front_default || ''}
+                                    image={singlePokemon.sprites.other?.dream_world.front_default || notFound}
                                     alt={`Image of ${singlePokemon.name}`}
                                 />
                                 <div className={css.flexColumn}>
                                     <CardMedia
                                         className={css.imageFront}
                                         component="img"
-                                        image={singlePokemon.sprites.other?.home.front_default || ''}
+                                        image={singlePokemon.sprites.other?.home.front_default || notFound}
                                         alt={`Image of ${singlePokemon.name}`}
                                     />
                                     <CardMedia
                                         className={css.imageFront}
                                         component="img"
-                                        image={singlePokemon.sprites.other?.home.front_shiny || ''}
+                                        image={singlePokemon.sprites.other?.home.front_shiny || notFound}
                                         alt={`Image of ${singlePokemon.name}`}
                                     />
                                     <CardMedia
                                         className={css.imageFront}
                                         component="img"
-                                        image={singlePokemon.sprites.back_shiny || ''}
+                                        image={singlePokemon.sprites.back_shiny || notFound}
                                         alt={`Image of ${singlePokemon.name}`}
                                     />
                                 </div>

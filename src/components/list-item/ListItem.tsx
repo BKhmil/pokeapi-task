@@ -2,21 +2,36 @@ import {FC} from 'react';
 import {Button, Card, CardContent, CardMedia, Typography} from '@mui/material';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {AppRoutes} from '../../enums/app-routes.enum';
-import css from './ListItem.module.css';
 import { SessionStorageItems } from '../../enums/session-storage-items.enum';
+import {NamedAPIResource} from "pokenode-ts";
+import css from './ListItem.module.css';
+import {isFavorite} from "../../helpers/isFavorite";
+import {useAppDispatch, useAppSelector} from "../../hooks/rtk";
+import {pokemonSliceActions} from "../../rtk/slices/pokemon/pokemon.slice";
 
 interface IProps {
-    name: string;
+    pokemon: NamedAPIResource;
     imageUrl: string;
 }
 
-const ListItem: FC<IProps> = ({name, imageUrl}) => {
+const ListItem: FC<IProps> = ({pokemon, imageUrl}) => {
+    const {favorites} = useAppSelector(state => state.pokemonSlice);
+    const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
     const location = useLocation();
 
     const handleClick = () => {
-        sessionStorage.setItem(SessionStorageItems.BACK_PATH, location.pathname + location.search);
-        navigate(AppRoutes.POKEMON_DEATILS_NAV + name);
+        sessionStorage.setItem(SessionStorageItems.BACK_PATH_POKEMON, location.pathname + location.search);
+        navigate(AppRoutes.POKEMON_DEATILS_NAV + pokemon.name);
+    }
+
+    const favoritesAction = () => {
+        if (isFavorite(pokemon, favorites)) {
+            return dispatch(pokemonSliceActions.removeFromFavorites(pokemon));
+        } else {
+            return dispatch(pokemonSliceActions.addToFavorites(pokemon));
+        }
     }
 
     return (
@@ -33,13 +48,16 @@ const ListItem: FC<IProps> = ({name, imageUrl}) => {
                 component="img"
                 height="300"
                 image={imageUrl}
-                alt={name}
+                alt={pokemon.name}
                 onClick={handleClick}
                 className={css.listImg}
             />
             <CardContent>
-                <Typography variant="h5">{name}</Typography>
-                <Button variant="contained">Add to Favorites</Button>
+                <Typography variant="h5">{pokemon.name}</Typography>
+                <Button
+                    variant="contained"
+                    onClick={favoritesAction}
+                >{isFavorite(pokemon, favorites) ? 'Remove from favorites' : 'Add to Favorites'}</Button>
             </CardContent>
         </Card>
     );

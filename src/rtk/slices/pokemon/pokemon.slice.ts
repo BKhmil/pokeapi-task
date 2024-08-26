@@ -1,12 +1,14 @@
-import {createSlice, isPending} from '@reduxjs/toolkit';
-import {NamedAPIResourceList, Pokemon} from "pokenode-ts";
+import {createSlice, isPending, PayloadAction} from '@reduxjs/toolkit';
+import {NamedAPIResource, NamedAPIResourceList, Pokemon} from "pokenode-ts";
 import {pokemonExtraReducers} from "../../extra-reducers/pokemon.extra.reducers";
+import {LocalStorageItems} from "../../../enums/local-storage-items.enum";
 
 interface IPokemonSlice {
     pokemonsPage: NamedAPIResourceList;
     isLoading: boolean;
     error: string | null;
     singlePokemon: Pokemon | null;
+    favorites: NamedAPIResource[];
 }
 
 const initialState: IPokemonSlice = {
@@ -18,13 +20,39 @@ const initialState: IPokemonSlice = {
     },
     isLoading: false,
     error: null,
-    singlePokemon: null
+    singlePokemon: null,
+    favorites: []
 };
 
 const pokemonSlice = createSlice({
     name: 'pokemons',
     initialState,
-    reducers: {},
+    reducers: {
+        retrieveData(state) {
+            const item = localStorage.getItem(LocalStorageItems.FAVORITES_POKEMONS);
+            const favorites: NamedAPIResource[] = [];
+
+            if (item) {
+                favorites.push(...JSON.parse(item));
+            } else {
+                localStorage.setItem(LocalStorageItems.FAVORITES_POKEMONS, JSON.stringify([]));
+            }
+
+            state.favorites = [...favorites];
+        },
+        addToFavorites(state, action: PayloadAction<NamedAPIResource>) {
+            const newArr = [...state.favorites, action.payload];
+            localStorage.setItem(LocalStorageItems.FAVORITES_POKEMONS, JSON.stringify(newArr));
+
+            state.favorites = [...newArr];
+        },
+        removeFromFavorites(state, action: PayloadAction<NamedAPIResource>) {
+            const newArr = [...state.favorites.filter(elem => elem.name !== action.payload.name)];
+            localStorage.setItem(LocalStorageItems.FAVORITES_POKEMONS, JSON.stringify(newArr));
+
+            state.favorites = [...newArr];
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(pokemonExtraReducers.loadPokemonsPage.fulfilled, (state, action) => {
@@ -56,5 +84,7 @@ const pokemonSlice = createSlice({
             })
     }
 });
+
+export const pokemonSliceActions = {...pokemonSlice.actions}
 
 export default pokemonSlice;

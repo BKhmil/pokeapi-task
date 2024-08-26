@@ -6,16 +6,14 @@ export enum AppRoutes {
     FAVORITES_NAV = '/favorites',
     SEARCH = 'search',
     SEARCH_NAV = '/search',
-    SEARCH_BY_NAME_NAV = '/search/name/',
-    SEARCH_BY_TYPE = 'type',
-    SEARCH_BY_TYPE_NAV = '/search/type/',
-    SEARCH_BY_ABILITY = 'ability',
-    SEARCH_BY_ABILITY_NAV = '/search/ability/',
     POKEMON_DEATILS_NAV = '/pokemons/',
     DYNAMIC_SEARCH_BY_NAME = 'name/:pokemonName',
     DYNAMIC_SEARCH_BY_NAME_NAV = '/search/name/',
     DYNAMIC_SEARCH_BY_TYPE = 'type/:type',
     DYNAMIC_SEARCH_BY_TYPE_NAV = '/search/type/',
     DYNAMIC_SEARCH_BY_ABILITY = 'ability/:ability',
-    DYNAMIC_POKEMON_NAME = ':pokemonName'
+    DYNAMIC_SEARCH_BY_ABILITY_NAV = '/search/ability/',
+    DYNAMIC_POKEMON_NAME = ':pokemonName',
+    DYNAMIC_FORM_NAME = 'forms/:formName',
+    DYNAMIC_FORM_NAME_NAV = '/forms/'
 }

@@ -53,6 +53,14 @@ const Header = () => {
                     <Typography
                         variant="h6"
                         component={NavLink}
+                        to={AppRoutes.FAVORITES_NAV}
+                        sx={linkStyles}
+                    >
+                        Favorites
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        component={NavLink}
                         to={AppRoutes.SEARCH_NAV}
                         sx={linkStyles}
                     >

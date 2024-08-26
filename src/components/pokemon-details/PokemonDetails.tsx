@@ -1,5 +1,16 @@
-import {Card, CardContent, CardMedia, Grid, List, ListItem, ListItemText, Paper, Typography} from '@mui/material';
-import {useNavigate, useParams} from 'react-router-dom';
+import {
+    Button,
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
+    List,
+    ListItem,
+    ListItemText,
+    Paper,
+    Typography
+} from '@mui/material';
+import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks/rtk';
 import {FC, useEffect} from 'react';
 import {pokemonExtraReducers} from '../../rtk/extra-reducers/pokemon.extra.reducers';
@@ -8,6 +19,7 @@ import ErrorBox from '../error-box/ErrorBox';
 import css from './PokemonDetails.module.css';
 import BackButton from '../back-button/BackButton';
 import {SessionStorageItems} from '../../enums/session-storage-items.enum';
+import {AppRoutes} from "../../enums/app-routes.enum";
 
 interface IProps {
     isSearching: boolean;
@@ -18,6 +30,7 @@ const PokemonDetails: FC<IProps> = ({isSearching}) => {
         useAppSelector(state => state.pokemonSlice);
     const dispatch = useAppDispatch();
 
+    const location = useLocation();
     const navigate = useNavigate();
 
     const {pokemonName} = useParams();
@@ -125,13 +138,31 @@ const PokemonDetails: FC<IProps> = ({isSearching}) => {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <Typography variant="h6">Forms:</Typography>
+                        {
+                            singlePokemon.forms.length ? singlePokemon.forms.map(form => (
+                                <Button
+                                    key={form.name}
+                                    component={Link}
+                                    to={AppRoutes.DYNAMIC_FORM_NAME_NAV + form.name}
+                                    variant="contained"
+                                    color="primary"
+                                    sx={{ margin: 1 }}
+                                    onClick={() => sessionStorage.setItem(SessionStorageItems.BACK_PATH_FORM, location.pathname + location.search)}
+                                >
+                                    {form.name}
+                                </Button>
+                            ))
+                                : <Typography variant="body1">
+                                    Pokemon does not have any forms
+                                </Typography>
+                        }
                     </Grid>
                 </Grid>
             }
             {
                 !isSearching && singlePokemon && <BackButton
                     action={() => {
-                        const path = sessionStorage.getItem(SessionStorageItems.BACK_PATH);
+                        const path = sessionStorage.getItem(SessionStorageItems.BACK_PATH_POKEMON);
                         path && navigate(path);
                     }}
                     styling={{position: 'fixed', top: '60vh', left: '4vw'}}

@@ -11,6 +11,8 @@ import PreSearch from "../components/pre-search/PreSearch";
 import SearchByNamePage from "../pages/search-by-name-page/SearchByNamePage";
 import SearchByTypePage from "../pages/search-by-type-page/SearchByTypePage";
 import SearchByAbilityPage from "../pages/search-by-ability-page/SearchByAbilityPage";
+import FormPage from "../pages/form-page/FormPage";
+import FavoritesPage from "../pages/favorites-page/FavoritesPage";
 
 export const routes: RouteObject[] = [
     {
@@ -57,6 +59,14 @@ export const routes: RouteObject[] = [
                         element: <SearchByAbilityPage />
                     }
                 ]
+            },
+            {
+                path: AppRoutes.DYNAMIC_FORM_NAME,
+                element: <FormPage />
+            },
+            {
+                path: AppRoutes.FAVORITES,
+                element: <FavoritesPage />
             }
         ]
     }

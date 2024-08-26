@@ -30,7 +30,7 @@ const loadSinglePokemonByName = createAsyncThunk<Pokemon, string>(
 );
 
 const loadPokemonsByType = createAsyncThunk<NamedAPIResource[], string>(
-    'pokemonSlice/loadPokemonsByType',
+    'pokemonsByType/loadPokemonsByType',
     async (typeName, {fulfillWithValue, rejectWithValue}) => {
         try {
             const response = await apiMainClient.pokemon.getTypeByName(typeName);
@@ -41,8 +41,21 @@ const loadPokemonsByType = createAsyncThunk<NamedAPIResource[], string>(
     }
 );
 
+const loadPokemonsByAbility = createAsyncThunk<NamedAPIResource[], string>(
+    'pokemonsByAbility/loadPokemonsByAbility',
+    async (abilityName, {fulfillWithValue, rejectWithValue}) => {
+        try {
+            const response = await apiMainClient.pokemon.getAbilityByName(abilityName);
+            return fulfillWithValue(response.pokemon.map(p => p.pokemon));
+        } catch (e) {
+            return rejectWithValue(e);
+        }
+    }
+);
+
 export const pokemonExtraReducers = {
     loadPokemonsPage,
     loadSinglePokemonByName,
-    loadPokemonsByType
+    loadPokemonsByType,
+    loadPokemonsByAbility
 }

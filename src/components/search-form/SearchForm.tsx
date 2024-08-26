@@ -29,6 +29,9 @@ const SearchForm = () => {
             case 'type':
                 navigate(AppRoutes.DYNAMIC_SEARCH_BY_TYPE_NAV + data.query);
                 break;
+            case 'ability':
+                navigate(AppRoutes.DYNAMIC_SEARCH_BY_ABILITY_NAV + data.query);
+                break;
             default:
                 break;
         }

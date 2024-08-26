@@ -1,5 +1,5 @@
-import {createSlice, isPending} from '@reduxjs/toolkit';
-import { NamedAPIResource } from 'pokenode-ts';
+import {createSlice} from '@reduxjs/toolkit';
+import {NamedAPIResource} from 'pokenode-ts';
 import {pokemonExtraReducers} from "../../extra-reducers/pokemon.extra.reducers";
 import {AxiosError} from "axios";
 
@@ -28,11 +28,11 @@ const pokemonByTypeSlice = createSlice({
             })
             .addCase(pokemonExtraReducers.loadPokemonsByType.rejected, (state, action) => {
                 console.log(action.payload as AxiosError);
-                state.error = 'Pokemons by type loading Error';
+                state.error = 'Type does not exist';
                 state.isLoading = false;
                 state.pokemonsByType = [];
             })
-            .addMatcher(isPending(pokemonExtraReducers.loadPokemonsByType), state => {
+            .addCase(pokemonExtraReducers.loadPokemonsByType.pending, state => {
                 state.isLoading = true;
                 state.error = null;
             })

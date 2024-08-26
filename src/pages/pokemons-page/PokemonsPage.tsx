@@ -1,26 +1,18 @@
 import {useTitle} from "../../hooks/useTitle";
 import {ChangeEvent, useEffect} from 'react';
-import {HEADER_HEIGHT} from "../../constants/styles";
+import {HEADER_HEIGHT, PAGE_MIN_HEIGHT} from "../../constants/styles";
 import PokemonsList from "../../components/pokemons-list/PokemonsList";
 import Container from '@mui/material/Container';
-import {toast, ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {useAppDispatch} from "../../hooks/rtk";
+import {useAppDispatch, useAppSelector} from "../../hooks/rtk";
 import {useSearchParams} from "react-router-dom";
 import {ITEMS_PER_PAGE_LIMIT} from "../../constants/app";
 import {pokemonExtraReducers} from "../../rtk/extra-reducers/pokemon.extra.reducers";
+import Guide from "../../components/guide/Guide";
 
 const PokemonsPage = () => {
     useTitle('PokeWiki | Pokemons');
 
-    const notify = () => {
-        toast.info('To navigate to a specific Pokémon page, click on its image');
-    };
-
-    useEffect(() => {
-        notify();
-    }, []);
-
+    const {isLoading, error, pokemonsPage} = useAppSelector(state => state.pokemonSlice);
     const dispatch = useAppDispatch();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -38,9 +30,17 @@ const PokemonsPage = () => {
     };
 
     return (
-        <Container sx={{ marginTop: `${HEADER_HEIGHT}px` }}>
-            <PokemonsList currentPage={currentPage} changePage={changePage} isSearching={false}/>
-            <ToastContainer />
+        <Container sx={{ marginTop: `${HEADER_HEIGHT}px`, minHeight: `${PAGE_MIN_HEIGHT}vh`}}>
+            <PokemonsList
+                withPagination={true}
+                isLoading={isLoading}
+                error={error}
+                currentPage={currentPage}
+                pokemonsList={null}
+                changePage={changePage}
+                pokemonsPage={pokemonsPage}
+            />
+            <Guide />
         </Container>
     );
 }
